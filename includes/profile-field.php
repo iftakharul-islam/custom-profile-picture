@@ -13,7 +13,7 @@ function cpp_add_profile_picture_field($user) {
     <h3>Profile Picture</h3>
     <table class="form-table">
         <tr>
-            <th><label for="cpp_profile_picture"><?php esc_html_e('Upload Profile Picture', ''); ?></label></th>
+            <th><label for="cpp_profile_picture"><?php esc_html_e('Upload Profile Picture', 'cpp'); ?></label></th>
             <td>
                 <?php if ($profile_picture): ?>
                     <img src="<?php echo esc_url($profile_picture); ?>" style="max-width:100px;max-height:100px;border-radius:50%;" alt="Profile Picture" />

@@ -1,11 +1,17 @@
 <?php
 /*
-Plugin Name: Custom Profile Picture
-Description: Allows users to upload their own profile pictures in the profile section.
-Version: 1.0
-Author: ifatwp
-Keywords: avatar, custom profile photo, custom profile picture, gravatar, user profile
+ * Plugin Name: Custom Profile  Picture
+ * Description: Allows users to upload their own profile pictures in the profile section.
+ * Plugin URI: http://ifat.dev/plugins/custom-profile-avatar/
+ * Version: 1.0.0
+ * Author: ifatwp
+ * Author URI:  https://ifat.dev/
+ * Text Domain: cpp
+ * Domain Path: /languages
+ * License: GPLv3
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 */
+
 
 if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
@@ -20,8 +26,7 @@ require_once CPP_PLUGIN_DIR . 'includes/form-handler.php';
 require_once CPP_PLUGIN_DIR . 'includes/profile-field.php';
 require_once CPP_PLUGIN_DIR . 'includes/save-profile-picture.php';
 require_once CPP_PLUGIN_DIR . 'includes/avatar-replacement.php';
-
-
+require_once CPP_PLUGIN_DIR . 'includes/image-cropping.php';
 
 // Modify the avatar URL to use the custom profile picture
 add_filter('get_avatar_url', 'cpp_custom_avatar_url', 10, 2);

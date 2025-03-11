@@ -20,7 +20,7 @@ function cpp_custom_avatar($avatar, $id_or_email, $size, $default, $alt) {
     if ($user) {
         $profile_picture = get_user_meta($user->ID, 'cpp_profile_picture', true);
         if ($profile_picture) {
-            return '<img src="' . esc_url($profile_picture) . '" alt="' . esc_attr($alt) . '" class="avatar avatar-' . esc_attr($size) . '" width="' . esc_attr($size) . '" height="' . esc_attr($size) . '" />';
+            return '<img class="cpp-profile-avatar" id="cpp-profile-avatar" src="' . esc_url($profile_picture) . '" alt="' . esc_attr($alt) . '" class="avatar avatar-' . esc_attr($size) . '" width="' . esc_attr($size) . '" height="' . esc_attr($size) . '" />';
         }
     }
 

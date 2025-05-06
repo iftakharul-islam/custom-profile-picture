@@ -1,4 +1,4 @@
-=== CPP – Custom Profile Picture ===
+=== Custom Profile Picture ===
 Contributors: ifatwp
 Tags: profile picture, avatar, user profile, resize avatar picture
 Requires PHP: 7.4
@@ -12,7 +12,7 @@ Enhance user profiles with custom profile pictures featuring an intuitive image 
 
 == Description ==
 
-CPP Profile allows users to easily upload and crop custom profile pictures. The plugin provides a seamless image cropping experience directly within the WordPress admin interface.
+Profile allows users to easily upload and crop custom profile pictures. The plugin provides a seamless image cropping experience directly within the WordPress admin interface.
 
 Key Features:
 

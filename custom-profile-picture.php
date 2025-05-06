@@ -1,15 +1,17 @@
 <?php
 /*
- * Plugin Name: Custom Profile  Picture
+ * Plugin Name: Custom Profile Picture
  * Description: Allows users to upload their own profile pictures in the profile section.
- * Plugin URI: http://ifat.dev/plugins/custom-profile-avatar/
+ * Plugin URI: https://ifatwp.wordpress.com/2025/05/07/custom-profile-picture/
  * Version: 1.0.0
+ * Requires at least: 5.6
+ * Requires PHP: 7.4
  * Author: ifatwp
- * Author URI:  https://ifat.dev/
- * Text Domain: cpp
+ * Author URI:  https://ifatwp.wordpress.com/
+ * Text Domain: cpp-profile
  * Domain Path: /languages
- * License: GPLv3
- * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
+ * License: GPLv2
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 */
 
 
@@ -18,7 +20,9 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
+define( 'CPP_PLUGIN_VERSION', '1.0.0' );
 define('CPP_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('CPP_PLUGIN_FILE', __FILE__);
 define('CPP_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 // Include required files
@@ -67,3 +71,8 @@ function cpp_custom_avatar_data($avatar_data, $args) {
 
     return $avatar_data;
 }
+
+add_action('init', function(){
+    load_plugin_textdomain('cpp-profile', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+});
+

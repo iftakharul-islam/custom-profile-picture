@@ -8,6 +8,12 @@ add_action('personal_options_update', 'cpp_save_profile_picture');
 add_action('edit_user_profile_update', 'cpp_save_profile_picture');
 
 function cpp_save_profile_picture($user_id) {
+    // Verify nonce for security
+    $nonce = sanitize_text_field(wp_unslash($_POST['_wpnonce'] ?? ''));
+    if (!wp_verify_nonce($nonce, 'update-user_' . $user_id)) {
+        return false;
+    }
+
     if (!current_user_can('edit_user', $user_id)) {
         return false;
     }

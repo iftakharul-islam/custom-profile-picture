@@ -2,8 +2,8 @@
 Contributors: ifatwp
 Tags: profile picture, avatar, user profile, resize avatar picture
 Requires PHP: 7.4
-Requires at least: 5.0
-Tested up to: 6.8.1
+Requires at least: 5.6
+Tested up to: 6.8
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -57,6 +57,8 @@ The profile picture will be displayed on your user profile page and anywhere tha
 * Implemented interactive image cropping
 * Added AJAX-based image saving
 * Included responsive modal design
+* Added security improvements with nonce verification
+* Enhanced input sanitization and validation
 
 == Upgrade Notice ==
 

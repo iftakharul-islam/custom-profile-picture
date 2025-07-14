@@ -64,12 +64,13 @@ jQuery(document).ready(function($) {
                         $(fileInput).closest('form').find('input#user_id').val();
             
             $.ajax({
-                url: ajaxurl,
+                url: cpp_ajax.ajax_url,
                 type: 'POST',
                 data: {
                     action: 'cpp_save_cropped_image',
                     image: imageData,
-                    user_id: userId
+                    user_id: userId,
+                    nonce: cpp_ajax.nonce
                 },
                 success: function(response) {
                     if (response.success) {

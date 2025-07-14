@@ -8,8 +8,7 @@
  * Requires PHP: 7.4
  * Author: ifatwp
  * Author URI:  https://ifatwp.wordpress.com/
- * Text Domain: custom-profile-profile
- * Domain Path: /languages
+ * Text Domain: custom-profile-picture
  * License: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
 */
@@ -71,8 +70,3 @@ function cpp_custom_avatar_data($avatar_data, $args) {
 
     return $avatar_data;
 }
-
-add_action('init', function(){
-    load_plugin_textdomain('cpp-profile', false, dirname(plugin_basename(__FILE__)) . '/languages/');
-});
-

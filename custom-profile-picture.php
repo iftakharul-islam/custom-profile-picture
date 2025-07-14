@@ -8,7 +8,7 @@
  * Requires PHP: 7.4
  * Author: ifatwp
  * Author URI:  https://ifatwp.wordpress.com/
- * Text Domain: cpp-profile
+ * Text Domain: custom-profile-profile
  * Domain Path: /languages
  * License: GPLv2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt

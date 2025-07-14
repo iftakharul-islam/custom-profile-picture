@@ -26,7 +26,7 @@ function cpp_add_cropping_modal() {
     <div id="cpp-cropping-modal" style="display: none;">
         <div class="cpp-modal-content">
             <div class="cpp-modal-header">
-                <h3><?php esc_html_e('Crop Profile Picture', ''); ?></h3>
+                <h3><?php esc_html_e('Crop Profile Picture', 'custom-profile-profile'); ?></h3>
                 <span class="cpp-close-modal">&times;</span>
             </div>
             <div class="cpp-modal-body">
@@ -35,10 +35,10 @@ function cpp_add_cropping_modal() {
                 </div>
                 <div class="cpp-crop-controls">
                     <button type="button" class="button button-primary" id="cpp-crop-save">
-                        <?php esc_html_e('Save Crop', ''); ?>
+                        <?php esc_html_e('Save Crop', 'custom-profile-profile'); ?>
                     </button>
                     <button type="button" class="button" id="cpp-crop-cancel">
-                        <?php esc_html_e('Cancel', ''); ?>
+                        <?php esc_html_e('Cancel', 'custom-profile-profile'); ?>
                     </button>
                 </div>
             </div>

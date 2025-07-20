@@ -1,4 +1,4 @@
-#cpp-cropping-modal {
+#custprofpic-cropping-modal {
     display: none;
     position: fixed;
     z-index: 999999;
@@ -9,7 +9,7 @@
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.cpp-modal-content {
+.custprofpic-modal-content {
     background-color: #fefefe;
     margin: 5% auto;
     padding: 20px;
@@ -19,44 +19,44 @@
     border-radius: 4px;
 }
 
-.cpp-modal-header {
+.custprofpic-modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
 }
 
-.cpp-modal-header h3 {
+.custprofpic-modal-header h3 {
     margin: 0;
 }
 
-.cpp-close-modal {
+.custprofpic-close-modal {
     color: #aaa;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
 }
 
-.cpp-close-modal:hover {
+.custprofpic-close-modal:hover {
     color: #000;
 }
 
-.cpp-image-container {
+.custprofpic-image-container {
     max-height: 500px;
     overflow: hidden;
     margin-bottom: 20px;
 }
 
-#cpp-crop-image {
+#custprofpic-crop-image {
     max-width: 100%;
     display: block;
 }
 
-.cpp-crop-controls {
+.custprofpic-crop-controls {
     text-align: right;
 }
 
-.cpp-crop-controls button {
+.custprofpic-crop-controls button {
     margin-left: 10px;
 }
 

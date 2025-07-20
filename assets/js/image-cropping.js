@@ -1,8 +1,8 @@
 jQuery(document).ready(function($) {
     let cropper;
-    let cropperImage = document.getElementById('cpp-crop-image');
-    let fileInput = document.getElementById('cpp_profile_picture');
-    let modal = document.getElementById('cpp-cropping-modal');
+    let cropperImage = document.getElementById('custprofpic-crop-image');
+    let fileInput = document.getElementById('custprofpic_profile_picture');
+    let modal = document.getElementById('custprofpic-cropping-modal');
 
     // Initialize cropper when file is selected
     $(fileInput).on('change', function(e) {
@@ -41,7 +41,7 @@ jQuery(document).ready(function($) {
     });
 
     // Close modal
-    $('.cpp-close-modal, #cpp-crop-cancel').on('click', function() {
+    $('.custprofpic-close-modal, #custprofpic-crop-cancel').on('click', function() {
         modal.style.display = 'none';
         if (cropper) {
             cropper.destroy();
@@ -50,7 +50,7 @@ jQuery(document).ready(function($) {
     });
 
     // Save cropped image
-    $('#cpp-crop-save').on('click', function() {
+    $('#custprofpic-crop-save').on('click', function() {
         if (!cropper) return;
 
         let canvas = cropper.getCroppedCanvas({
@@ -64,18 +64,40 @@ jQuery(document).ready(function($) {
                         $(fileInput).closest('form').find('input#user_id').val();
             
             $.ajax({
-                url: cpp_ajax.ajax_url,
+                url: custprofpic_ajax.ajax_url,
                 type: 'POST',
                 data: {
-                    action: 'cpp_save_cropped_image',
+                    action: 'custprofpic_save_cropped_image',
                     image: imageData,
                     user_id: userId,
-                    nonce: cpp_ajax.nonce
+                    nonce: custprofpic_ajax.nonce
                 },
                 success: function(response) {
                     if (response.success) {
-                        location.reload();
-
+                        // Update the profile picture display immediately
+                        let profileDisplay = document.getElementById('custprofpic-profile-picture-display');
+                        if (profileDisplay) {
+                            // Create new image element
+                            let newImage = document.createElement('img');
+                            newImage.src = response.data.url;
+                            newImage.style.cssText = 'max-width:100px;max-height:100px;border-radius:50%;';
+                            newImage.alt = 'Profile Picture';
+                            
+                            // Clear existing content and add new image
+                            profileDisplay.innerHTML = '';
+                            profileDisplay.appendChild(newImage);
+                        }
+                        
+                        // Show success message
+                        alert('Profile picture updated successfully!');
+                        
+                        // Close modal
+                        modal.style.display = 'none';
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+                        fileInput.value = '';
+                        
                     } else {
                         alert('Failed to save image. Please try again.');
                     }

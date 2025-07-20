@@ -4,7 +4,7 @@ Tags: profile picture, avatar, user profile, resize avatar picture
 Requires PHP: 7.4
 Requires at least: 5.6
 Tested up to: 6.8
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,10 +22,11 @@ Key Features:
 * Works on both user profile and user edit pages
 * Mobile-friendly interface
 * Real-time crop preview
+* Object-oriented architecture with proper namespacing
 
 == Installation ==
 
-1. Upload the `cpp-profile` folder to the `/wp-content/plugins/` directory
+1. Upload the `custom-profile-profile` folder to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Navigate to your user profile or edit any user's profile to use the custom profile picture feature
 
@@ -50,6 +51,18 @@ The profile picture will be displayed on your user profile page and anywhere tha
 3. Profile picture display
 
 == Changelog ==
+
+= v1.0.1 21 July 2025 =
+* Added proper namespacing for better code organization
+* Improved error handling for image uploads
+* Enhanced security with additional nonce verification
+* Added responsive styling for mobile devices
+* Fixed image preview display issues
+* Improved cropping interface usability
+* Added proper sanitization for AJAX requests
+* Added alt text for better accessibility
+* Improved error messages for better user experience
+
 
 = 1.0.0 =
 * Initial release

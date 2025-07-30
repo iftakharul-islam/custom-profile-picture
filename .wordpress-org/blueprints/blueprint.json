@@ -1,0 +1,16 @@
+{
+  "landingPage": "/wp-admin/profile.php",
+  "preferredVersions": {
+    "wp": "latest",
+    "php": "8.0"
+  },
+  "plugins": [
+    "custom-profile-picture"
+  ],
+  "steps": [
+    {
+      "step": "login",
+      "username": "admin"
+    }
+  ]
+}

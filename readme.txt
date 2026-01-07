@@ -52,6 +52,8 @@ The profile picture will be displayed on your user profile page and anywhere tha
 
 == Changelog ==
 
+= v1.0.2 30 July 2025 =
+
 = v1.0.1 21 July 2025 =
 * Added proper namespacing for better code organization
 * Improved error handling for image uploads
@@ -61,7 +63,6 @@ The profile picture will be displayed on your user profile page and anywhere tha
 * Improved cropping interface usability
 * Added proper sanitization for AJAX requests
 * Added alt text for better accessibility
-* Improved error messages for better user experience
 
 
 = 1.0.0 =

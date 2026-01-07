@@ -52,8 +52,47 @@ class Plugin {
         
         // Avatar data filter
         add_filter('pre_get_avatar_data', array($this, 'custom_avatar_data'), 10, 2);
+
+        // set option for installed date
+        if (!get_option('custprofpic_installed_date')) {
+            update_option('custprofpic_installed_date', current_time('mysql'));
+        }
+
+        // ask for reviews if user used it for more than 30 days
+        $installed_date = get_option('custprofpic_installed_date');
+        if ($installed_date) {
+            $installed_timestamp = strtotime($installed_date);
+            $current_timestamp = current_time('timestamp');
+            $days_since_install = ($current_timestamp - $installed_timestamp) / (60 * 60 * 24);
+            
+            if ($days_since_install > 30 && !get_option('custprofpic_review_asked')) {
+                add_action('admin_notices', array($this, 'review_notice'));
+            }
+        }
+       
+        add_action('admin_notices', array($this, 'review_notice'));
+
+
     }
-    
+
+    /**
+     * Display review notice
+     */
+    public function review_notice() {
+        if (current_user_can('manage_options') && !get_option('custprofpic_review_asked')) {
+            echo '<div class="notice notice-info is-dismissible">';
+            echo '<p>' . esc_html__('If you enjoy using Custom Profile Picture, please consider leaving a review!', 'custom-profile-picture') . '</p>';
+            echo '<p><a href="https://wordpress.org/support/plugin/custom-profile-picture/reviews/#new-post" class="button button-primary">' . esc_html__('Leave a Review', 'custom-profile-picture') . '</a></p>';
+            echo '<p><a href="' . esc_url(add_query_arg('dismiss_review_notice', 'true')) . '" class="button button-secondary">' . esc_html__('Dismiss Notice', 'custom-profile-picture') . '</a></p>';
+            echo '</div>';
+        }
+
+        // add a dismissible notice
+        if (isset($_GET['dismiss_review_notice']) && $_GET['dismiss_review_notice'] == 'true') {
+            update_option('custprofpic_review_asked', true);
+        }
+
+    }
     /**
      * Custom avatar URL handler
      */

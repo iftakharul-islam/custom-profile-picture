@@ -3,7 +3,7 @@
  * Plugin Name: Custom Profile Picture
  * Description: Allows users to upload their own profile pictures in the profile section.
  * Plugin URI: https://ifatwp.wordpress.com/2025/05/07/custom-profile-picture/
- * Version: 1.0.1
+ * Version: 1.0.2
  * Requires at least: 5.6
  * Requires PHP: 7.4
  * Author: ifatwp

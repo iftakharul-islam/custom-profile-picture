@@ -39,7 +39,22 @@ class Save_Profile_Picture {
             return false;
         }
 
-        if (isset($_FILES['custprofpic_profile_picture']) && !empty($_FILES['custprofpic_profile_picture']['name'])) {
+        // Check if user selected from media library
+        if (isset($_POST['custprofpic_attachment_id']) && !empty($_POST['custprofpic_attachment_id'])) {
+            $attachment_id = absint($_POST['custprofpic_attachment_id']);
+
+            // Verify the attachment exists and is an image
+            if (wp_attachment_is_image($attachment_id)) {
+                $attachment_url = wp_get_attachment_url($attachment_id);
+
+                if ($attachment_url) {
+                    update_user_meta($user_id, 'custprofpic_profile_picture', esc_url($attachment_url));
+                    update_user_meta($user_id, 'custprofpic_attachment_id', $attachment_id);
+                }
+            }
+        }
+        // Otherwise, check if user uploaded a new file
+        elseif (isset($_FILES['custprofpic_profile_picture']) && !empty($_FILES['custprofpic_profile_picture']['name'])) {
             require_once(ABSPATH . 'wp-admin/includes/file.php');
             require_once(ABSPATH . 'wp-admin/includes/media.php');
             require_once(ABSPATH . 'wp-admin/includes/image.php');
@@ -69,6 +84,7 @@ class Save_Profile_Picture {
                 $attachment_url = wp_get_attachment_url($attachment_id);
                 if ($attachment_url) {
                     update_user_meta($user_id, 'custprofpic_profile_picture', esc_url($attachment_url));
+                    update_user_meta($user_id, 'custprofpic_attachment_id', $attachment_id);
                 }
             }
         }

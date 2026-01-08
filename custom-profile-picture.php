@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants with longer prefix
-define('CUSTPROFPIC_PLUGIN_VERSION','1.0.1');
+define('CUSTPROFPIC_PLUGIN_VERSION','1.0.2');
 define('CUSTPROFPIC_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('CUSTPROFPIC_PLUGIN_FILE', __FILE__);
 define('CUSTPROFPIC_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -48,6 +48,7 @@ require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-profile-field.php';
 require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-save-profile-picture.php';
 require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-avatar-replacement.php';
 require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-image-cropping.php';
+require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-admin-page.php';
 
 // Initialize the plugin
 add_action('plugins_loaded', function() {

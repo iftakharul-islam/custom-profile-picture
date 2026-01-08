@@ -23,6 +23,7 @@ class Plugin {
     private $save_profile_picture;
     private $avatar_replacement;
     private $image_cropping;
+    private $admin_page;
     
     /**
      * Constructor
@@ -41,6 +42,7 @@ class Plugin {
         $this->save_profile_picture = new Save_Profile_Picture();
         $this->avatar_replacement = new Avatar_Replacement();
         $this->image_cropping = new Image_Cropping();
+        $this->admin_page = new Admin_Page();
     }
     
     /**
@@ -82,8 +84,10 @@ class Plugin {
         if (current_user_can('manage_options') && !get_option('custprofpic_review_asked')) {
             echo '<div class="notice notice-info is-dismissible">';
             echo '<p>' . esc_html__('If you enjoy using Custom Profile Picture, please consider leaving a review!', 'custom-profile-picture') . '</p>';
+            echo "<div class='review-buttons' style='margin-top:10px; display:flex; gap:10px;'>";
             echo '<p><a href="https://wordpress.org/support/plugin/custom-profile-picture/reviews/#new-post" class="button button-primary">' . esc_html__('Leave a Review', 'custom-profile-picture') . '</a></p>';
             echo '<p><a href="' . esc_url(add_query_arg('dismiss_review_notice', 'true')) . '" class="button button-secondary">' . esc_html__('Dismiss Notice', 'custom-profile-picture') . '</a></p>';
+            echo "</div>";
             echo '</div>';
         }
 

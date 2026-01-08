@@ -192,7 +192,7 @@ Yes! The plugin is multisite compatible.
 
 == Changelog ==
 
-= 1.0.2 – January 7, 2026 =
+= 1.0.2 – January 8, 2026 =
 **Major Update – New Features & Improvements**
 
 * **NEW:** Centralized admin page for bulk profile picture management

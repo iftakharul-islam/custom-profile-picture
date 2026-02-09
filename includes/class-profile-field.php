@@ -63,9 +63,9 @@ class Profile_Field {
                     <div id="custprofpic-profile-picture-display">
                         <?php if ($profile_picture): ?>
                             <?php
-                            $current_attachment_id = $attachment_id ? $attachment_id : attachment_url_to_postid($profile_picture);
-                            if ($current_attachment_id) {
-                                echo wp_get_attachment_image($current_attachment_id, array(100, 100), false, array(
+                            // Use cached attachment ID to avoid expensive database query
+                            if ($attachment_id && wp_attachment_is_image($attachment_id)) {
+                                echo wp_get_attachment_image($attachment_id, array(100, 100), false, array(
                                     'style' => 'max-width:100px;max-height:100px;border-radius:50%;',
                                     'alt' => 'Profile Picture'
                                 ));

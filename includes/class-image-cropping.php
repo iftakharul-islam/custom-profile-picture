@@ -152,6 +152,7 @@ class Image_Cropping {
         
         $image_url = wp_get_attachment_url($attachment_id);
         update_user_meta($user_id, 'custprofpic_profile_picture', esc_url($image_url));
+        update_user_meta($user_id, 'custprofpic_attachment_id', $attachment_id);
         
         wp_send_json_success(array('url' => $image_url));
     }

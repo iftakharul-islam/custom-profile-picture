@@ -11,6 +11,11 @@ if (!defined('ABSPATH')) {
 class Avatar_Replacement {
     
     /**
+     * Cache for user avatars to prevent repeated queries
+     */
+    private static $user_cache = array();
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -39,10 +44,20 @@ class Avatar_Replacement {
         }
 
         if ($user) {
-            $profile_picture = get_user_meta($user->ID, 'custprofpic_profile_picture', true);
+            // Check cache first to avoid repeated queries
+            if (!isset(self::$user_cache[$user->ID])) {
+                self::$user_cache[$user->ID] = array(
+                    'picture' => get_user_meta($user->ID, 'custprofpic_profile_picture', true),
+                    'attachment_id' => get_user_meta($user->ID, 'custprofpic_attachment_id', true)
+                );
+            }
+            
+            $profile_picture = self::$user_cache[$user->ID]['picture'];
+            $attachment_id = self::$user_cache[$user->ID]['attachment_id'];
+            
             if ($profile_picture) {
-                $attachment_id = attachment_url_to_postid($profile_picture);
-                if ($attachment_id) {
+                // Use cached attachment ID to avoid expensive attachment_url_to_postid() query
+                if ($attachment_id && wp_attachment_is_image($attachment_id)) {
                     return wp_get_attachment_image($attachment_id, array($size, $size), false, array(
                         'class' => 'custprofpic-profile-avatar avatar avatar-' . esc_attr($size),
                         'alt' => esc_attr($alt),

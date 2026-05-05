@@ -39,19 +39,21 @@ class Avatar_Replacement {
         }
 
         if ($user) {
+            // Use stored attachment ID directly — avoids an expensive attachment_url_to_postid() DB query on every render.
+            $attachment_id = (int) get_user_meta($user->ID, 'custprofpic_attachment_id', true);
+            if ($attachment_id) {
+                return wp_get_attachment_image($attachment_id, array($size, $size), false, array(
+                    'class' => 'custprofpic-profile-avatar avatar avatar-' . esc_attr($size),
+                    'alt'   => esc_attr($alt),
+                    'width' => esc_attr($size),
+                    'height' => esc_attr($size),
+                ));
+            }
+
+            // Fallback: URL only (no attachment ID stored yet)
             $profile_picture = get_user_meta($user->ID, 'custprofpic_profile_picture', true);
             if ($profile_picture) {
-                $attachment_id = attachment_url_to_postid($profile_picture);
-                if ($attachment_id) {
-                    return wp_get_attachment_image($attachment_id, array($size, $size), false, array(
-                        'class' => 'custprofpic-profile-avatar avatar avatar-' . esc_attr($size),
-                        'alt' => esc_attr($alt),
-                        'width' => esc_attr($size),
-                        'height' => esc_attr($size)
-                    ));
-                } else {
-                    return '<img class="custprofpic-profile-avatar avatar avatar-' . esc_attr($size) . '" src="' . esc_url($profile_picture) . '" alt="' . esc_attr($alt) . '" width="' . esc_attr($size) . '" height="' . esc_attr($size) . '" />';
-                }
+                return '<img class="custprofpic-profile-avatar avatar avatar-' . esc_attr($size) . '" src="' . esc_url($profile_picture) . '" alt="' . esc_attr($alt) . '" width="' . esc_attr($size) . '" height="' . esc_attr($size) . '" />';
             }
         }
 

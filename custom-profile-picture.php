@@ -78,4 +78,4 @@ function appsero_init_tracker_custom_profile_picture() {
 
 }
 
-appsero_init_tracker_custom_profile_picture();
+add_action('init', 'appsero_init_tracker_custom_profile_picture');

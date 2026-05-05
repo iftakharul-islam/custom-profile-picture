@@ -5,7 +5,7 @@ Tags: avatar, profile picture, gravatar, user profile, custom avatar
 Requires PHP: 7.4
 Requires at least: 5.6
 Tested up to: 6.9
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -191,6 +191,9 @@ Yes! The plugin is multisite compatible.
 6. Mobile-responsive interface
 
 == Changelog ==
+
+= 1.0.3 – May 5, 2026 =
+**Added – Appsero insight & Tested upto 6.9**
 
 = 1.0.2 – January 8, 2026 =
 **Major Update – New Features & Improvements**

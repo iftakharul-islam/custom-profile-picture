@@ -16,6 +16,11 @@ class Plugin {
     private static $instance = null;
     
     /**
+     * Avatar cache to avoid repeated database queries
+     */
+    private static $avatar_cache = array();
+    
+    /**
      * Components
      */
     private $form_handler;
@@ -71,9 +76,6 @@ class Plugin {
                 add_action('admin_notices', array($this, 'review_notice'));
             }
         }
-       
-        add_action('admin_notices', array($this, 'review_notice'));
-
 
     }
 
@@ -101,8 +103,18 @@ class Plugin {
      * Custom avatar URL handler
      */
     public function custom_avatar_url($url, $user_id) {
+        // Check cache first to avoid repeated queries
+        if (isset(self::$avatar_cache[$user_id])) {
+            return self::$avatar_cache[$user_id];
+        }
+        
         $profile_picture = get_user_meta($user_id, 'custprofpic_profile_picture', true);
-        return $profile_picture ? esc_url($profile_picture) : $url;
+        
+        // Cache the result
+        $result = $profile_picture ? esc_url($profile_picture) : $url;
+        self::$avatar_cache[$user_id] = $result;
+        
+        return $result;
     }
     
     /**
@@ -111,11 +123,22 @@ class Plugin {
     public function custom_avatar_data($avatar_data, $args) {
         if (!empty($args->ID)) {
             $user_id = $args->ID;
+            
+            // Check cache first to avoid repeated queries
+            if (isset(self::$avatar_cache[$user_id])) {
+                $avatar_data['url'] = self::$avatar_cache[$user_id];
+                $avatar_data['found'] = true;
+                return $avatar_data;
+            }
+            
             $profile_picture = get_user_meta($user_id, 'custprofpic_profile_picture', true);
             
             if ($profile_picture) {
                 $avatar_data['url'] = esc_url($profile_picture);
                 $avatar_data['found'] = true;
+                
+                // Cache the result
+                self::$avatar_cache[$user_id] = $avatar_data['url'];
             }
         }
         return $avatar_data;

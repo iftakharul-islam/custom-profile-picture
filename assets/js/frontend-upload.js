@@ -63,9 +63,7 @@
                 removeBtn.type      = 'button';
                 removeBtn.id        = 'custprofpic-frontend-remove';
                 removeBtn.className = 'button custprofpic-remove-btn';
-                removeBtn.textContent = custprofpicFrontend.strings.confirm_remove
-                    ? custprofpicFrontend.strings.remove_label || 'Remove Picture'
-                    : 'Remove Picture';
+                removeBtn.textContent = custprofpicFrontend.strings.remove_label || 'Remove Picture';
                 actionsEl.appendChild(removeBtn);
                 bindRemoveButton(removeBtn);
             }
@@ -134,9 +132,7 @@
         if (!canvas) { return; }
 
         var saveBtn = this;
-        $(saveBtn).prop('disabled', true).text(
-            typeof custprofpicFrontend !== 'undefined' ? 'Saving…' : 'Saving…'
-        );
+        $(saveBtn).prop('disabled', true).text('Saving\u2026');
 
         var imageData = canvas.toDataURL('image/png');
 

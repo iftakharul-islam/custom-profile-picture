@@ -1,0 +1,238 @@
+/* =========================================================
+   Custom Profile Picture – Frontend Shortcode Styles
+   ========================================================= */
+
+.custprofpic-frontend-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    font-family: inherit;
+}
+
+/* ----- Avatar ----- */
+.custprofpic-avatar-area {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.custprofpic-frontend-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+    display: block;
+}
+
+/* ----- Inline message ----- */
+.custprofpic-message {
+    display: none;
+    padding: 10px 14px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.custprofpic-message--success {
+    background: #edfaf1;
+    color: #1a7a44;
+    border: 1px solid #a7e6bf;
+}
+
+.custprofpic-message--error {
+    background: #fdf3f3;
+    color: #9b1c1c;
+    border: 1px solid #f5c6c6;
+}
+
+.custprofpic-message--info {
+    background: #eff6ff;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+}
+
+/* ----- Action buttons ----- */
+.custprofpic-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.custprofpic-upload-label {
+    cursor: pointer;
+    display: inline-block;
+    padding: 8px 16px;
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.custprofpic-upload-label:hover,
+.custprofpic-upload-label:focus {
+    background: #135e96;
+    color: #fff;
+}
+
+.custprofpic-remove-btn {
+    padding: 8px 16px;
+    background: #fff;
+    color: #c0392b;
+    border: 1px solid #c0392b;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.custprofpic-remove-btn:hover,
+.custprofpic-remove-btn:focus {
+    background: #c0392b;
+    color: #fff;
+}
+
+/* ----- Crop modal ----- */
+.custprofpic-frontend-modal {
+    display: none;
+    position: fixed;
+    z-index: 999999;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    align-items: center;
+    justify-content: center;
+}
+
+.custprofpic-frontend-modal-content {
+    background: #fff;
+    border-radius: 6px;
+    width: 90%;
+    max-width: 780px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+}
+
+.custprofpic-frontend-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.custprofpic-frontend-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.custprofpic-close-modal {
+    background: none;
+    border: none;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0 4px;
+    transition: color 0.15s;
+}
+
+.custprofpic-close-modal:hover,
+.custprofpic-close-modal:focus {
+    color: #111;
+}
+
+.custprofpic-frontend-modal-body {
+    padding: 20px;
+}
+
+.custprofpic-frontend-image-container {
+    max-height: 440px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+#custprofpic-frontend-crop-image {
+    display: block;
+    max-width: 100%;
+}
+
+.custprofpic-frontend-crop-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.custprofpic-frontend-crop-controls .button-primary {
+    padding: 8px 20px;
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.custprofpic-frontend-crop-controls .button-primary:hover {
+    background: #135e96;
+}
+
+.custprofpic-frontend-crop-controls .button {
+    padding: 8px 20px;
+    background: #fff;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.custprofpic-frontend-crop-controls .button:hover {
+    background: #f3f4f6;
+}
+
+/* ----- Responsive ----- */
+@media (max-width: 480px) {
+    .custprofpic-frontend-modal-content {
+        width: 98%;
+        max-height: 95vh;
+    }
+
+    .custprofpic-frontend-image-container {
+        max-height: 280px;
+    }
+
+    .custprofpic-frontend-crop-controls {
+        justify-content: stretch;
+        flex-direction: column;
+    }
+
+    .custprofpic-frontend-crop-controls .button,
+    .custprofpic-frontend-crop-controls .button-primary {
+        width: 100%;
+        text-align: center;
+    }
+
+    .custprofpic-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* ----- Notice for logged-out users ----- */
+.custprofpic-notice {
+    padding: 10px 14px;
+    background: #eff6ff;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+    border-radius: 4px;
+    font-size: 14px;
+}

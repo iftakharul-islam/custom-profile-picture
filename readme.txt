@@ -26,6 +26,12 @@ Tired of relying on Gravatar for user avatars? Want complete control over your s
 * Choose from WordPress Media Library
 * Both methods available on individual user profiles
 
+**🌐 Frontend Shortcode**
+* Add `[custom_profile_picture]` to any page or post
+* Logged-in users can upload, crop, and remove their own picture directly on the frontend
+* Interactive crop tool — no page reload required
+* Works without giving users access to the admin area
+
 **⚡ Centralized Management Dashboard**
 * Manage ALL user profile pictures from one page
 * Beautiful grid view of all users
@@ -127,11 +133,17 @@ Need help? Check out our:
 
 = Usage =
 
-**For Individual Users:**
-1. Navigate to Users <span aria-hidden="true" class="wp-exclude-emoji">→</span> Your Profile
+**For Individual Users (Admin):**
+1. Navigate to Users → Your Profile
 2. Find "Profile Picture" section
 3. Upload or choose from media library
 4. Save changes
+
+**For Frontend Users via Shortcode:**
+1. Add the `[custom_profile_picture]` shortcode to any page or post
+2. Logged-in users will see their current profile picture with "Upload New Picture" and (if set) "Remove Picture" buttons
+3. Clicking "Upload New Picture" opens a built-in crop tool — save to update immediately, no page reload needed
+4. Guests or logged-out users see a polite sign-in prompt
 
 **For Administrators:**
 1. Go to "Profile Pictures" in WordPress admin menu
@@ -190,9 +202,33 @@ Yes! The plugin is multisite compatible.
 5. Search and filter users easily
 6. Mobile-responsive interface
 
+== Shortcodes ==
+
+= [custom_profile_picture] =
+
+Place this shortcode on any page or post to give logged-in users a self-service profile picture uploader on the public-facing site.
+
+**Features:**
+* Displays the user's current avatar (custom or Gravatar)
+* "Upload New Picture" triggers a built-in crop tool (square aspect ratio)
+* "Remove Picture" reverts the avatar back to Gravatar
+* AJAX-powered — no page reload needed
+* Guests or logged-out visitors see a prompt to sign in
+
+**Example:**
+
+`[custom_profile_picture]`
+
+You can place it inside any page, post, or widget area that supports shortcodes.
+
 == Changelog ==
 
-= 1.0.5 – February 9, 2026 =
+= 1.0.5 =
+* **FIXED:** `get_avatar_url` and `pre_get_avatar_data` filters now correctly resolve any `$id_or_email` value (integer ID, email string, or WP_Comment object), so custom avatars display properly on the frontend in all contexts.
+* **NEW:** `[custom_profile_picture]` shortcode — lets logged-in users upload, crop, and remove their own profile picture on any public page without admin access.
+* **NEW:** AJAX remove action available on the frontend (`custprofpic_frontend_remove_picture`).
+* **NEW:** Dedicated frontend CSS (`frontend-profile.css`) and JS (`frontend-upload.js`) — loaded only on pages that contain the shortcode.
+**Added – Appsero insight vendor**
 **Critical Performance Update – Highly Recommended**
 
 * **FIXED:** Massive database query optimization - eliminated expensive `attachment_url_to_postid()` calls
@@ -201,8 +237,6 @@ Yes! The plugin is multisite compatible.
 * **IMPROVED:** Ensured attachment ID is always stored when uploading profile pictures
 * **FIXED:** Removed duplicate admin notice hook that could cause unnecessary notices
 * **ENHANCED:** Better performance on comment sections and user listing pages
-* **ADDED:** Comprehensive performance documentation (PERFORMANCE.md)
-* **NOTE:** No security vulnerabilities found - plugin is clean and secure
 
 This update addresses user concerns about excessive database queries. If you experienced slow page loads with previous versions, this update will significantly improve performance.
 

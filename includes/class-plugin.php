@@ -29,6 +29,7 @@ class Plugin {
     private $avatar_replacement;
     private $image_cropping;
     private $admin_page;
+    private $frontend_profile;
     
     /**
      * Constructor
@@ -48,16 +49,17 @@ class Plugin {
         $this->avatar_replacement = new Avatar_Replacement();
         $this->image_cropping = new Image_Cropping();
         $this->admin_page = new Admin_Page();
+        $this->frontend_profile = new Frontend_Profile();
     }
     
     /**
      * Initialize WordPress hooks
      */
     private function init_hooks() {
-        // Avatar URL filter
-        add_filter('get_avatar_url', array($this, 'custom_avatar_url'), 10, 2);
-        
-        // Avatar data filter
+        // Avatar URL filter — accepts 3 params; second is $id_or_email (int/string/object)
+        add_filter('get_avatar_url', array($this, 'custom_avatar_url'), 10, 3);
+
+        // Avatar data filter — second param is $id_or_email, not a WP_User object
         add_filter('pre_get_avatar_data', array($this, 'custom_avatar_data'), 10, 2);
 
         // set option for installed date
@@ -100,7 +102,15 @@ class Plugin {
 
     }
     /**
-     * Custom avatar URL handler
+     * Custom avatar URL handler.
+     *
+     * Resolves $id_or_email (int ID, email string, or WP_Comment object) to a
+     * WP_User so get_user_meta() is always called with a valid integer user ID.
+     *
+     * @param string     $url         The avatar URL.
+     * @param mixed      $id_or_email User ID, email address, or WP_Comment object.
+     * @param array      $args        Arguments passed to get_avatar_data().
+     * @return string
      */
     public function custom_avatar_url($url, $user_id) {
         // Check cache first to avoid repeated queries
@@ -118,7 +128,14 @@ class Plugin {
     }
     
     /**
-     * Custom avatar data handler
+     * Custom avatar data handler.
+     *
+     * Resolves $id_or_email to a WP_User and injects the custom picture URL
+     * before WordPress queries Gravatar.
+     *
+     * @param array $avatar_data Avatar data array.
+     * @param mixed $id_or_email User ID, email address, or WP_Comment object.
+     * @return array
      */
     public function custom_avatar_data($avatar_data, $args) {
         if (!empty($args->ID)) {
@@ -134,13 +151,14 @@ class Plugin {
             $profile_picture = get_user_meta($user_id, 'custprofpic_profile_picture', true);
             
             if ($profile_picture) {
-                $avatar_data['url'] = esc_url($profile_picture);
+                $avatar_data['url']   = esc_url($profile_picture);
                 $avatar_data['found'] = true;
                 
                 // Cache the result
                 self::$avatar_cache[$user_id] = $avatar_data['url'];
             }
         }
+
         return $avatar_data;
     }
     

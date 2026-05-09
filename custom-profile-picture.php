@@ -49,6 +49,7 @@ require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-save-profile-picture.php';
 require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-avatar-replacement.php';
 require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-image-cropping.php';
 require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-admin-page.php';
+require_once CUSTPROFPIC_PLUGIN_DIR . 'includes/class-frontend-profile.php';
 
 // Initialize the plugin
 add_action('plugins_loaded', function() {

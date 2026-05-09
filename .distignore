@@ -3,3 +3,5 @@
 /.github
 composer.json
 composer.lock
+README.md
+PERFORMANCE.md

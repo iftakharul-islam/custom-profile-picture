@@ -1,0 +1,5 @@
+/.wordpress-org
+/.git
+/.github
+composer.json
+composer.lock

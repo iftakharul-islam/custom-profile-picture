@@ -16,6 +16,11 @@ class Plugin {
     private static $instance = null;
     
     /**
+     * Avatar cache to avoid repeated database queries
+     */
+    private static $avatar_cache = array();
+    
+    /**
      * Components
      */
     private $form_handler;
@@ -73,9 +78,6 @@ class Plugin {
                 add_action('admin_notices', array($this, 'review_notice'));
             }
         }
-       
-        add_action('admin_notices', array($this, 'review_notice'));
-
 
     }
 
@@ -110,25 +112,19 @@ class Plugin {
      * @param array      $args        Arguments passed to get_avatar_data().
      * @return string
      */
-    public function custom_avatar_url($url, $id_or_email, $args) {
-        $user = false;
-
-        if (is_numeric($id_or_email)) {
-            $user = get_userdata((int) $id_or_email);
-        } elseif (is_string($id_or_email)) {
-            $user = get_user_by('email', $id_or_email);
-        } elseif (is_object($id_or_email) && !empty($id_or_email->user_id)) {
-            $user = get_userdata((int) $id_or_email->user_id);
+    public function custom_avatar_url($url, $user_id) {
+        // Check cache first to avoid repeated queries
+        if (isset(self::$avatar_cache[$user_id])) {
+            return self::$avatar_cache[$user_id];
         }
-
-        if ($user) {
-            $profile_picture = get_user_meta($user->ID, 'custprofpic_profile_picture', true);
-            if ($profile_picture) {
-                return esc_url($profile_picture);
-            }
-        }
-
-        return $url;
+        
+        $profile_picture = get_user_meta($user_id, 'custprofpic_profile_picture', true);
+        
+        // Cache the result
+        $result = $profile_picture ? esc_url($profile_picture) : $url;
+        self::$avatar_cache[$user_id] = $result;
+        
+        return $result;
     }
     
     /**
@@ -141,22 +137,25 @@ class Plugin {
      * @param mixed $id_or_email User ID, email address, or WP_Comment object.
      * @return array
      */
-    public function custom_avatar_data($avatar_data, $id_or_email) {
-        $user = false;
-
-        if (is_numeric($id_or_email)) {
-            $user = get_userdata((int) $id_or_email);
-        } elseif (is_string($id_or_email)) {
-            $user = get_user_by('email', $id_or_email);
-        } elseif (is_object($id_or_email) && !empty($id_or_email->user_id)) {
-            $user = get_userdata((int) $id_or_email->user_id);
-        }
-
-        if ($user) {
-            $profile_picture = get_user_meta($user->ID, 'custprofpic_profile_picture', true);
+    public function custom_avatar_data($avatar_data, $args) {
+        if (!empty($args->ID)) {
+            $user_id = $args->ID;
+            
+            // Check cache first to avoid repeated queries
+            if (isset(self::$avatar_cache[$user_id])) {
+                $avatar_data['url'] = self::$avatar_cache[$user_id];
+                $avatar_data['found'] = true;
+                return $avatar_data;
+            }
+            
+            $profile_picture = get_user_meta($user_id, 'custprofpic_profile_picture', true);
+            
             if ($profile_picture) {
                 $avatar_data['url']   = esc_url($profile_picture);
                 $avatar_data['found'] = true;
+                
+                // Cache the result
+                self::$avatar_cache[$user_id] = $avatar_data['url'];
             }
         }
 

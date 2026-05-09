@@ -11,6 +11,11 @@ if (!defined('ABSPATH')) {
 class Avatar_Replacement {
     
     /**
+     * Cache for user avatars to prevent repeated queries
+     */
+    private static $user_cache = array();
+    
+    /**
      * Constructor
      */
     public function __construct() {
@@ -39,21 +44,29 @@ class Avatar_Replacement {
         }
 
         if ($user) {
-            // Use stored attachment ID directly — avoids an expensive attachment_url_to_postid() DB query on every render.
-            $attachment_id = (int) get_user_meta($user->ID, 'custprofpic_attachment_id', true);
-            if ($attachment_id) {
-                return wp_get_attachment_image($attachment_id, array($size, $size), false, array(
-                    'class' => 'custprofpic-profile-avatar avatar avatar-' . esc_attr($size),
-                    'alt'   => esc_attr($alt),
-                    'width' => esc_attr($size),
-                    'height' => esc_attr($size),
-                ));
+            // Check cache first to avoid repeated queries
+            if (!isset(self::$user_cache[$user->ID])) {
+                self::$user_cache[$user->ID] = array(
+                    'picture' => get_user_meta($user->ID, 'custprofpic_profile_picture', true),
+                    'attachment_id' => get_user_meta($user->ID, 'custprofpic_attachment_id', true)
+                );
             }
-
-            // Fallback: URL only (no attachment ID stored yet)
-            $profile_picture = get_user_meta($user->ID, 'custprofpic_profile_picture', true);
+            
+            $profile_picture = self::$user_cache[$user->ID]['picture'];
+            $attachment_id = self::$user_cache[$user->ID]['attachment_id'];
+            
             if ($profile_picture) {
-                return '<img class="custprofpic-profile-avatar avatar avatar-' . esc_attr($size) . '" src="' . esc_url($profile_picture) . '" alt="' . esc_attr($alt) . '" width="' . esc_attr($size) . '" height="' . esc_attr($size) . '" />';
+                // Use cached attachment ID to avoid expensive attachment_url_to_postid() query
+                if ($attachment_id && wp_attachment_is_image($attachment_id)) {
+                    return wp_get_attachment_image($attachment_id, array($size, $size), false, array(
+                        'class' => 'custprofpic-profile-avatar avatar avatar-' . esc_attr($size),
+                        'alt' => esc_attr($alt),
+                        'width' => esc_attr($size),
+                        'height' => esc_attr($size)
+                    ));
+                } else {
+                    return '<img class="custprofpic-profile-avatar avatar avatar-' . esc_attr($size) . '" src="' . esc_url($profile_picture) . '" alt="' . esc_attr($alt) . '" width="' . esc_attr($size) . '" height="' . esc_attr($size) . '" />';
+                }
             }
         }
 

@@ -5,7 +5,7 @@ Tags: avatar, profile picture, gravatar, user profile, custom avatar
 Requires PHP: 7.4
 Requires at least: 5.6
 Tested up to: 6.9
-Stable tag: 1.0.3
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -192,7 +192,7 @@ Yes! The plugin is multisite compatible.
 
 == Changelog ==
 
-= 1.0.3 – February 9, 2026 =
+= 1.0.5 – February 9, 2026 =
 **Critical Performance Update – Highly Recommended**
 
 * **FIXED:** Massive database query optimization - eliminated expensive `attachment_url_to_postid()` calls
@@ -272,6 +272,13 @@ Initial release with profile picture upload and cropping functionality.
 = Privacy Policy =
 
 This plugin does not collect, store, or transmit any user data outside your WordPress installation. All images are stored in your WordPress media library. No external services are used.
+Custom Profile Picture – Replace Gravatar with Your Own Images uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
+
+Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure a great user experience for all our users. 
+
+Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
+
+Learn more about how [Appsero collects and uses this data](https://appsero.com/privacy-policy/).
 
 = Want to Contribute? =
 

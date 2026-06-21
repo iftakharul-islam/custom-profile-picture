@@ -225,6 +225,7 @@ You can place it inside any page, post, or widget area that supports shortcodes.
 
 = 1.0.6 =
 * **FIXED:** `[custom_profile_picture]` shortcode upload now works for all logged-in users. The crop-save AJAX handler previously required the `upload_files` capability, which Subscribers (the primary audience of the frontend shortcode) do not have, causing a "Permission denied" error. Users can now always update their own picture, while editing another user's picture still requires the `edit_user` capability.
+* **FIXED:** `[custom_profile_picture]` shortcode assets (cropper scripts/styles) now load in block (FSE) themes. Previously the enqueue was gated on `has_shortcode($post->post_content)`, which fails when the shortcode lives in a block template, template part, or synced pattern, leaving the uploader non-functional. Assets are now enqueued directly from the shortcode render.
 
 = 1.0.5 =
 * **FIXED:** `get_avatar_url` and `pre_get_avatar_data` filters now correctly resolve any `$id_or_email` value (integer ID, email string, or WP_Comment object), so custom avatars display properly on the frontend in all contexts.

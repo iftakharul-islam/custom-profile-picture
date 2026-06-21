@@ -51,6 +51,22 @@ class Frontend_Profile {
             return;
         }
 
+        $this->enqueue_assets_now();
+    }
+
+    /**
+     * Register and enqueue the frontend assets.
+     *
+     * Split out from enqueue_assets() so render_shortcode() can call it
+     * directly. In block (FSE) themes the shortcode often lives in a block
+     * template, template part, or synced pattern rather than in
+     * $post->post_content, so has_shortcode() on the post body returns false
+     * and the wp_enqueue_scripts gate never fires. Calling this from the
+     * shortcode render guarantees the assets load wherever the shortcode is
+     * actually used. WordPress allows enqueuing during the_content because the
+     * scripts/styles are printed in the footer.
+     */
+    public function enqueue_assets_now() {
         wp_enqueue_style(
             'custprofpic-cropper-style',
             CUSTPROFPIC_PLUGIN_URL . 'assets/css/cropper.min.css',
@@ -107,8 +123,11 @@ class Frontend_Profile {
                 '</p>';
         }
 
-        // Flag that we need assets on this page.
+        // Flag that we need assets on this page, and enqueue immediately so
+        // block themes (where the shortcode is not in $post->post_content)
+        // still get the scripts/styles.
         $this->shortcode_rendered = true;
+        $this->enqueue_assets_now();
 
         $user_id        = get_current_user_id();
         $profile_picture = get_user_meta($user_id, 'custprofpic_profile_picture', true);

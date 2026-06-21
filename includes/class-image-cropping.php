@@ -86,7 +86,8 @@ class Image_Cropping {
             wp_send_json_error('Security check failed');
         }
 
-        if (!current_user_can('upload_files')) {
+        // Must be logged in to upload a profile picture.
+        if (!is_user_logged_in()) {
             wp_send_json_error('Permission denied');
         }
 
@@ -97,12 +98,19 @@ class Image_Cropping {
         // Sanitize and validate input
         $image_data = sanitize_textarea_field(wp_unslash($_POST['image']));
         $user_id = intval($_POST['user_id']);
-        
+
         // Validate user_id
         if (!$user_id || !get_user_by('ID', $user_id)) {
             wp_send_json_error('Invalid user ID');
         }
-        
+
+        // A user may always update their own picture (frontend shortcode use
+        // case). Editing another user's picture requires the capability to
+        // edit other users (admin / user-edit screen).
+        if ($user_id !== get_current_user_id() && !current_user_can('edit_user', $user_id)) {
+            wp_send_json_error('Permission denied');
+        }
+
         // Validate image data format
         if (!preg_match('/^data:image\/(jpeg|png|gif);base64,/', $image_data)) {
             wp_send_json_error('Invalid image format');

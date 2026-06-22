@@ -35,11 +35,21 @@ class Avatar_Replacement {
     public function custom_avatar($avatar, $id_or_email, $size, $default, $alt) {
         $user = false;
 
+        // Resolve every shape WordPress may pass: numeric ID, email string,
+        // WP_User, WP_Post (post author), or WP_Comment (comment author).
         if (is_numeric($id_or_email)) {
-            $user = get_userdata($id_or_email);
-        } elseif (is_object($id_or_email) && !empty($id_or_email->user_id)) {
-            $user = get_userdata($id_or_email->user_id);
-        } elseif (is_string($id_or_email)) {
+            $user = get_userdata((int) $id_or_email);
+        } elseif ($id_or_email instanceof \WP_User) {
+            $user = $id_or_email;
+        } elseif ($id_or_email instanceof \WP_Post) {
+            $user = get_userdata((int) $id_or_email->post_author);
+        } elseif ($id_or_email instanceof \WP_Comment) {
+            if (!empty($id_or_email->user_id)) {
+                $user = get_userdata((int) $id_or_email->user_id);
+            } elseif (!empty($id_or_email->comment_author_email)) {
+                $user = get_user_by('email', $id_or_email->comment_author_email);
+            }
+        } elseif (is_string($id_or_email) && is_email($id_or_email)) {
             $user = get_user_by('email', $id_or_email);
         }
 

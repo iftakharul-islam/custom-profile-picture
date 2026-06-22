@@ -112,19 +112,72 @@ class Plugin {
      * @param array      $args        Arguments passed to get_avatar_data().
      * @return string
      */
-    public function custom_avatar_url($url, $user_id) {
+    public function custom_avatar_url($url, $id_or_email, $args = array()) {
+        $user_id = self::resolve_user_id($id_or_email);
+
+        // Not a resolvable WordPress user — leave the URL untouched.
+        if (!$user_id) {
+            return $url;
+        }
+
         // Check cache first to avoid repeated queries
         if (isset(self::$avatar_cache[$user_id])) {
             return self::$avatar_cache[$user_id];
         }
-        
+
         $profile_picture = get_user_meta($user_id, 'custprofpic_profile_picture', true);
-        
+
         // Cache the result
         $result = $profile_picture ? esc_url($profile_picture) : $url;
         self::$avatar_cache[$user_id] = $result;
-        
+
         return $result;
+    }
+
+    /**
+     * Resolve the avatar filter's $id_or_email argument to a numeric user ID.
+     *
+     * WordPress passes $id_or_email as any of: an integer/numeric user ID, an
+     * email string, a WP_User, a WP_Post (post author), or a WP_Comment
+     * (comment author). Using the raw value as an array key or get_user_meta()
+     * argument triggers "Illegal offset type" fatals when it is an object, so
+     * every avatar filter must funnel through this resolver first.
+     *
+     * @param mixed $id_or_email User ID, email, WP_User, WP_Post, or WP_Comment.
+     * @return int User ID, or 0 when it cannot be resolved.
+     */
+    private static function resolve_user_id($id_or_email) {
+        if (is_numeric($id_or_email)) {
+            return (int) $id_or_email;
+        }
+
+        if ($id_or_email instanceof \WP_User) {
+            return (int) $id_or_email->ID;
+        }
+
+        if ($id_or_email instanceof \WP_Post) {
+            return (int) $id_or_email->post_author;
+        }
+
+        if ($id_or_email instanceof \WP_Comment) {
+            if (!empty($id_or_email->user_id)) {
+                return (int) $id_or_email->user_id;
+            }
+
+            if (!empty($id_or_email->comment_author_email)) {
+                $user = get_user_by('email', $id_or_email->comment_author_email);
+                return $user ? (int) $user->ID : 0;
+            }
+
+            return 0;
+        }
+
+        if (is_string($id_or_email) && is_email($id_or_email)) {
+            $user = get_user_by('email', $id_or_email);
+            return $user ? (int) $user->ID : 0;
+        }
+
+        return 0;
     }
     
     /**
@@ -137,26 +190,28 @@ class Plugin {
      * @param mixed $id_or_email User ID, email address, or WP_Comment object.
      * @return array
      */
-    public function custom_avatar_data($avatar_data, $args) {
-        if (!empty($args->ID)) {
-            $user_id = $args->ID;
-            
-            // Check cache first to avoid repeated queries
-            if (isset(self::$avatar_cache[$user_id])) {
-                $avatar_data['url'] = self::$avatar_cache[$user_id];
-                $avatar_data['found'] = true;
-                return $avatar_data;
-            }
-            
-            $profile_picture = get_user_meta($user_id, 'custprofpic_profile_picture', true);
-            
-            if ($profile_picture) {
-                $avatar_data['url']   = esc_url($profile_picture);
-                $avatar_data['found'] = true;
-                
-                // Cache the result
-                self::$avatar_cache[$user_id] = $avatar_data['url'];
-            }
+    public function custom_avatar_data($avatar_data, $id_or_email) {
+        $user_id = self::resolve_user_id($id_or_email);
+
+        if (!$user_id) {
+            return $avatar_data;
+        }
+
+        // Check cache first to avoid repeated queries
+        if (isset(self::$avatar_cache[$user_id])) {
+            $avatar_data['url']   = self::$avatar_cache[$user_id];
+            $avatar_data['found'] = true;
+            return $avatar_data;
+        }
+
+        $profile_picture = get_user_meta($user_id, 'custprofpic_profile_picture', true);
+
+        if ($profile_picture) {
+            $avatar_data['url']   = esc_url($profile_picture);
+            $avatar_data['found'] = true;
+
+            // Cache the result
+            self::$avatar_cache[$user_id] = $avatar_data['url'];
         }
 
         return $avatar_data;

@@ -5,7 +5,7 @@ Tags: avatar, profile picture, gravatar, user profile, custom avatar
 Requires PHP: 7.4
 Requires at least: 5.6
 Tested up to: 7.0
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -222,6 +222,10 @@ Place this shortcode on any page or post to give logged-in users a self-service 
 You can place it inside any page, post, or widget area that supports shortcodes.
 
 == Changelog ==
+
+= 1.0.7 =
+* **FIXED:** Fatal error (`Illegal offset type in isset or empty`) when the `get_avatar_url` filter received a `WP_User`/`WP_Post`/`WP_Comment` object instead of a numeric ID. This crashed the block editor (and any REST request preloading `/wp/v2/users/me`). All avatar filters now resolve every `$id_or_email` shape — integer ID, email, `WP_User`, `WP_Post`, and `WP_Comment` — to a numeric user ID before use.
+* **FIXED:** `pre_get_avatar_data` handler read the user ID from the wrong filter argument, so custom avatars were never injected via that path. It now reads the correct `$id_or_email` argument.
 
 = 1.0.6 =
 * **FIXED:** `[custom_profile_picture]` shortcode upload now works for all logged-in users. The crop-save AJAX handler previously required the `upload_files` capability, which Subscribers (the primary audience of the frontend shortcode) do not have, causing a "Permission denied" error. Users can now always update their own picture, while editing another user's picture still requires the `edit_user` capability.

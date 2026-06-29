@@ -1,6 +1,6 @@
 === Custom Profile Picture – Replace Gravatar with Your Own Images ===
 Contributors: ifatwp
-Donate link: https://ifatwp.wordpress.com/
+Donate Link: https://iftakharul.gumroad.com/coffee
 Tags: avatar, profile picture, gravatar, user profile, custom avatar
 Requires PHP: 7.4
 Requires at least: 5.6
